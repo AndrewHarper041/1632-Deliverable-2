@@ -9,19 +9,12 @@ import java.util.*;
 import org.junit.Test;
 
 public class Tests 
-{
+{    
     //Initial test for checking build
     @Test
     public void tautologyTest() 
     {   
         org.junit.Assert.assertEquals(1,1);
-    }
-    
-    //Test to verify mockito functionality. Code taken from mockito documentaion
-    @Test
-    public void mockitoTest()
-    {
-    
     }
     
     //Tests that RNG getNext returns ints
@@ -76,27 +69,35 @@ public class Tests
     
     //Tests that drivers returns the correct specefic driver
     @Test
-    public void getDriverTest()
+    public void getDriverLocTest()
     {
-        LCG lcg = new LCG(400); //arbitrary seed
-        Drivers drivers = new Drivers(lcg);
+        
+        LCG mockLCG = mock(LCG.class); //mock lcg to control the return values
+        when(mockLCG.getNext()) .thenReturn(0); //make random number gen only return 0
+        Drivers drivers = new Drivers(mockLCG);
+        drivers.genDrivers();
+        
+        for(int i=0; i<5; i++)
+            org.junit.Assert.assertEquals("Outside City", drivers.getDriverLoc(i));
     }
     
-    //Tests that list of five drivers with location of int value 0-4 only properly generated
+    //Tests that list of five drivers with location of one of the 5 areas, checking for "Error" value 
     @Test
     public void genDriversTest()
     {
-        LCG lcg = new LCG(400); //arbitrary seed
+        LCG lcg = new LCG(400); //use non mock to get random results, arbitrary seed
         Drivers drivers = new Drivers(lcg);
         drivers.genDrivers();
         
-        //Generate drivers, then iterate over list looking for any improper values
+        //Generate drivers, then iterate over list looking for return of error
         int fail = 0;
         int driverID;
         for(int i=0; i<5; i++)
         {
-            if(drivers.getDriver(i) < 0 || drivers.getDriver(i) > 4)
+            if(drivers.getDriverLoc(i).equals("Error"))
                 fail = 1;
         }
+        
+        org.junit.Assert.assertEquals(0, fail);
     }
 } 

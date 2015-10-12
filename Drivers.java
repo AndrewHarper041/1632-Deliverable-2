@@ -19,6 +19,27 @@ public class Drivers
         }
     }
     
+    //Gets location as String for specefied driver
+    public String getDriverLoc(int driverNum)
+    {
+        switch (driverList[driverNum])
+        {
+            case 0:
+                return "Outside City"; 
+            case 1:
+                return "Mall"; 
+            case 2:
+                return "University"; 
+            case 3:
+                return "Bookstore";     
+            case 4:
+                return "Coffee"; 
+        }
+        
+        //Failed
+        return "Error";
+    }
+    
     //Produce a choice returning 0 for 'down street' and 1 for 'change street' when in city
     //Location 'Mall' will be choosed for 0 and 'university' for 1 when outside city
     public int randDrive()
