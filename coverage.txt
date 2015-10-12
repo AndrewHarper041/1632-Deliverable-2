@@ -1,4 +1,4 @@
-[EMMA v2.0.5312 report, generated Mon Oct 12 15:58:21 EDT 2015]
+[EMMA v2.0.5312 report, generated Mon Oct 12 16:01:20 EDT 2015]
 -------------------------------------------------------------------------------
 OVERALL COVERAGE SUMMARY:
 
