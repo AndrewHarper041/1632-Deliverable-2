@@ -13,7 +13,7 @@ public class LCG
     //Produce a random number
     public int getNext()
     {
-        randNum = (214013 * randNum + 2531011) % (2^31); //constants from microsoft formula
+        randNum = (214013 * randNum + 2531011) % (2^31); //constants from microsoft algorithm
         return randNum;
     }
 }
