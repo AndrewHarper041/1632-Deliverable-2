@@ -45,13 +45,14 @@ public class Drivers
     public void drive(int driverNum)
     {
         int decision = randDrive();
+        String[] intersection = getIntersection(driverList[driverNum]);
         
         if(decision == 0) //drive 'down street' case
         {
-            System.out.println("Driver " + driverNum + " heading from " + getDriverLoc(driverNum));
+            
+            System.out.print("Driver " + driverNum + " heading from " + getDriverLoc(driverNum));
             switch (driverList[driverNum])
             {
-                
                 case 0:
                     driverList[driverNum] = 1; 
                     break;
@@ -68,11 +69,12 @@ public class Drivers
                     driverList[driverNum] = 0; 
                     break;
             }
+            System.out.println(" to " + getDriverLoc(driverNum) + " via " + intersection[decision]);
         }
         
         else if(decision == 1) //drive 'change street' case
         {
-            System.out.println("Driver " + driverNum + " heading from " + getDriverLoc(driverNum));
+            System.out.print("Driver " + driverNum + " heading from " + getDriverLoc(driverNum));
             switch (driverList[driverNum])
             {
                 case 0:
@@ -91,35 +93,36 @@ public class Drivers
                     driverList[driverNum] = 1;
                     break;
             }
+             System.out.println(" to " + getDriverLoc(driverNum) + " via " + intersection[decision]);
         }
     }
     
-    //Gets an intersection as a 2 length array of strings representing the two streets the location a driver is on
+    //Gets an intersection as a 2 length array of strings representing the two streets a location  is on
     //The 0 indexed string is the main street, then second is the cross street that would be taken if crossed
     //Outside city intersections have arbitrary 4th street in first, fifth in second matching precedent
-    public String[] getIntersection(int driverNum)
+    public String[] getIntersection(int locNum) //input is the 0-4 location
     {
         String[] intersection = new String[2];
         
-        if(driverList[driverNum] == 0) //outside city case
+        if(locNum == 0) //outside city case
         {
             intersection[0] = "Fourth Ave.";
             intersection[1] = "Fifth Ave.";
         }
         
-        if(driverList[driverNum] == 1 || driverList[driverNum] == 3) //find which main street
+        if(locNum == 1 || locNum == 3) //find which main street
         {
             intersection[0] = "Fourth Ave.";
-            if(driverList[driverNum] == 1)
+            if(locNum == 1)
                 intersection[1] = "Meow St.";
             else
                 intersection[1] = "Chirp St.";
         }
         
-        if(driverList[driverNum] == 2 || driverList[driverNum] == 4)
+        if(locNum == 2 || locNum == 4)
         {
             intersection[0] = "Fifth Ave.";
-            if(driverList[driverNum] == 4)
+            if(locNum == 4)
                 intersection[1] = "Meow St.";
             else
                 intersection[1] = "Chirp St.";

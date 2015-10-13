@@ -10,7 +10,6 @@ import org.junit.Test;
 
 public class Tests 
 {    
-
     //Initial test for checking build
     @Test
     public void tautologyTest() 
@@ -84,7 +83,7 @@ public class Tests
         org.junit.Assert.assertEquals("Bookstore", drivers.getDriverLoc(2)); //subsequent Drivers will also start at Bookstore
     }
     
-    //Tests that list of five drivers with location of one of the 5 areas, checking for "Error" value 
+    //Tests that list of five drivers with location of one of the 5 areas, checking for "Error" value, uses stubbing
     @Test
     public void genDriversTest()
     {
@@ -108,7 +107,7 @@ public class Tests
         org.junit.Assert.assertEquals(0, fail);
     }
     
-    //Test the drivers drive() method which will randomly select new location based off where they are
+    //Test the drivers drive() method which will randomly select new location based off where they are, uses stubbing
     @Test
     public void driveTest()
     {
@@ -148,24 +147,27 @@ public class Tests
         
     }
     
-    //Tests that drivers randDrive() function is properly called when drive() is used
+    //Tests that drivers randDrive() function is properly called when drive() is used using a spy
     @Test
-    public void  randomnessOnDriveTest()
+    public void randomnessOnDriveTest()
     {
-    
+        LCG mockLCG = mock(LCG.class); //mock LCG for spy
+        Drivers drivers = new Drivers(mockLCG);
+        Drivers spyDrivers = spy(drivers); //spy drivers to do method calling verification
+        spyDrivers.genDrivers();
+        spyDrivers.drive(0); //arbitrary 0
+        
+        verify(spyDrivers).randDrive();
     }
     
     //Test properly getting an intersection, represented by a string array
     @Test
     public void getIntersectionTest()
     {
-        LCG mockLCG = mock(LCG.class);
-        when(mockLCG.getNext()).thenReturn(1); //mock LCG returning 1
-        
+        LCG mockLCG = mock(LCG.class);        
         Drivers drivers = new Drivers(mockLCG);
-        drivers.genDrivers(); //all drivers will start at mall
         
-        String[] intersection = drivers.getIntersection(0); //arbitrary start, all are the same
+        String[] intersection = drivers.getIntersection(1); //testing from mall
         
         org.junit.Assert.assertEquals("Fourth Ave.",intersection[0]);
         org.junit.Assert.assertEquals("Meow St.",intersection[1]);
